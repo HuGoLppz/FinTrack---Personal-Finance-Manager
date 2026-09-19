@@ -171,7 +171,7 @@ npm start
 El servidor se iniciará en:
 
 ```text
-http://localhost:3000
+http://localhost:5000
 ```
 
 Para desarrollo con reinicio automático:
@@ -220,7 +220,7 @@ La aplicación sigue una arquitectura sencilla de cliente-servidor:
 ┌──────────────────────┐
 │       Backend        │
 │   Node.js + Express  │
-│        :3000         │
+│        :5000         │
 └──────────┬───────────┘
            │
            ▼
