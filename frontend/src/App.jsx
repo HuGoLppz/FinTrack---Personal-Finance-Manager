@@ -32,7 +32,7 @@ export default function App() {
   const [raw, setRaw] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [form, setForm] = useState(null); // { transaction, preset }
+  const [form, setForm] = useState(null);
   const [period, setPeriod] = useState(null);
   const [route, setRoute] = useState(readHash);
 
@@ -52,7 +52,9 @@ export default function App() {
       setRaw(await getTransactions());
       setError("");
     } catch {
-      setError("No hemos podido conectar con tus movimientos. Comprueba que la API está activa.");
+      setError(
+        "No hemos podido conectar con tus movimientos. Comprueba que la API está activa.",
+      );
     } finally {
       setLoading(false);
     }
@@ -66,32 +68,48 @@ export default function App() {
   const people = useMemo(() => {
     const m = new Map();
     transactions.forEach((x) => {
-      if (x.isIncome && x.person !== "Sin asignar" && !m.has(x.person)) m.set(x.person, x.personColor);
+      if (x.isIncome && x.person !== "Sin asignar" && !m.has(x.person))
+        m.set(x.person, x.personColor);
     });
-    return [...m].map(([name, color]) => ({ name, color })).sort((a, b) => a.name.localeCompare(b.name, "es"));
+    return [...m]
+      .map(([name, color]) => ({ name, color }))
+      .sort((a, b) => a.name.localeCompare(b.name, "es"));
   }, [transactions]);
 
   const expenseTypes = useMemo(
     () =>
-      [...new Set(transactions.filter((x) => !x.isIncome && x.expenseType !== "Sin tipo").map((x) => x.expenseType))].sort(
-        (a, b) => a.localeCompare(b, "es"),
-      ),
+      [
+        ...new Set(
+          transactions
+            .filter((x) => !x.isIncome && x.expenseType !== "Sin tipo")
+            .map((x) => x.expenseType),
+        ),
+      ].sort((a, b) => a.localeCompare(b, "es")),
     [transactions],
   );
 
   const salaries = useMemo(() => latestSalaries(transactions), [transactions]);
 
   const months = useMemo(
-    () => [...new Set(transactions.map((x) => monthKey(x.date)).filter(Boolean))].sort().reverse(),
+    () =>
+      [...new Set(transactions.map((x) => monthKey(x.date)).filter(Boolean))]
+        .sort()
+        .reverse(),
     [transactions],
   );
   const currentMonth = monthKey(new Date().toISOString());
-  const effectivePeriod = period ?? (months.includes(currentMonth) ? currentMonth : months[0] || "all");
+  const effectivePeriod =
+    period ??
+    (months.includes(currentMonth) ? currentMonth : months[0] || "all");
 
   const submitForm = async (values) => {
     const editing = form.transaction;
-    const item = editing ? await updateTransaction(editing.id, values) : await createTransaction(values);
-    setRaw((all) => (editing ? all.map((x) => (x.id === item.id ? item : x)) : [item, ...all]));
+    const item = editing
+      ? await updateTransaction(editing.id, values)
+      : await createTransaction(values);
+    setRaw((all) =>
+      editing ? all.map((x) => (x.id === item.id ? item : x)) : [item, ...all],
+    );
     setForm(null);
   };
 
@@ -104,7 +122,8 @@ export default function App() {
     }
   };
 
-  const openForm = (preset = {}, transaction = null) => setForm({ preset, transaction });
+  const openForm = (preset = {}, transaction = null) =>
+    setForm({ preset, transaction });
 
   const [section, sub] = route.split("/");
   const tab = TABS.some((t) => t.id === section) ? section : "resumen";
@@ -118,7 +137,11 @@ export default function App() {
         </a>
         <nav aria-label="Secciones">
           {TABS.map((t) => (
-            <a key={t.id} href={`#/${t.id}`} aria-current={tab === t.id ? "page" : undefined}>
+            <a
+              key={t.id}
+              href={`#/${t.id}`}
+              aria-current={tab === t.id ? "page" : undefined}
+            >
               {t.label}
             </a>
           ))}
@@ -152,9 +175,18 @@ export default function App() {
 
         {tab === "movimientos" && (
           <>
-            <div className="subtabs" role="tablist" aria-label="Listas de movimientos">
+            <div
+              className="subtabs"
+              role="tablist"
+              aria-label="Listas de movimientos"
+            >
               {LISTS.map((l) => (
-                <a key={l.id} href={`#/movimientos/${l.id}`} role="tab" aria-selected={list.id === l.id}>
+                <a
+                  key={l.id}
+                  href={`#/movimientos/${l.id}`}
+                  role="tab"
+                  aria-selected={list.id === l.id}
+                >
                   {l.label}
                 </a>
               ))}
@@ -172,9 +204,17 @@ export default function App() {
           </>
         )}
 
-        {tab === "salarios" && <Salaries salaries={salaries} onAdd={openForm} />}
+        {tab === "salarios" && (
+          <Salaries salaries={salaries} onAdd={openForm} />
+        )}
 
-        {tab === "gestor" && <Manager transactions={transactions} people={people} salaries={salaries} />}
+        {tab === "gestor" && (
+          <Manager
+            transactions={transactions}
+            people={people}
+            salaries={salaries}
+          />
+        )}
       </main>
 
       {form && (

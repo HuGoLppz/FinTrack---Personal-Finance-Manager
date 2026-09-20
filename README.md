@@ -79,7 +79,7 @@ La base de datos se crea automáticamente como `fintrack.db` al iniciar el backe
 La API está disponible por defecto en:
 
 ```text
-http://localhost:3000
+http://localhost:3001
 ```
 
 ### Obtener todas las transacciones

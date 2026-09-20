@@ -1,7 +1,3 @@
-// Configuración de la interfaz. Los datos (movimientos, personas, tipos de gasto)
-// viven en el backend; aquí solo hay presentación y valores por defecto del Gestor.
-
-// Tipos de ingreso. `value` es lo que se guarda en el backend (campo incomeType).
 export const INCOME_TYPES = [
   { value: "salary", label: "Salario", bg: "#dcefe1", fg: "#22603a" },
   { value: "tip", label: "Propina", bg: "#fbefcf", fg: "#82580c" },
@@ -17,12 +13,9 @@ export const FALLBACK_INCOME_TYPE = {
 export const incomeTypeOf = (value) =>
   INCOME_TYPES.find((t) => t.value === value) || FALLBACK_INCOME_TYPE;
 
-// Pagas admitidas y meses en los que se cobra la paga extra (0 = enero).
 export const PAYMENT_OPTIONS = [12, 14];
-export const EXTRA_PAY_MONTHS = [5, 11]; // junio y diciembre
+export const EXTRA_PAY_MONTHS = [5, 11];
 
-// Colores de persona. Se asigna uno estable según el nombre;
-// si el backend envía `personColor` en el movimiento, se usa ese.
 export const PERSON_COLORS = [
   "#4655c9",
   "#0e8a8c",
@@ -34,7 +27,6 @@ export const PERSON_COLORS = [
   "#536471",
 ];
 
-// Colores de las etiquetas de tipo de gasto (asignación estable por nombre).
 export const EXPENSE_TAG_COLORS = [
   { bg: "#f6e4dc", fg: "#94472f" },
   { bg: "#e5e4f6", fg: "#4a48a0" },
@@ -44,8 +36,6 @@ export const EXPENSE_TAG_COLORS = [
   { bg: "#e2ebdc", fg: "#4b6a2f" },
 ];
 
-// Reparto por defecto del Gestor (los porcentajes se pueden editar en pantalla).
-// group: "spend" = dinero que se puede gastar · "keep" = dinero que se debe reservar.
 export const DEFAULT_SPLIT = [
   { key: "needs", label: "Gastos vitales", pct: 50, group: "spend", color: "#2b4738" },
   { key: "wants", label: "Ocio y caprichos", pct: 15, group: "spend", color: "#c98a3b" },

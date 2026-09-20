@@ -3,7 +3,8 @@
 *.local
 *.log*
 *.db
-
+*-wal
+*-shm
 # Dist
 node_modules
 dist/
